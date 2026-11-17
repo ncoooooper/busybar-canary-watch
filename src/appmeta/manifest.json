@@ -4,6 +4,6 @@
   "name": "Canary Watch",
   "version": "0.1.0",
   "api_version": "27.12.0",
-  "description": "Canary Watch",
+  "description": "Compare one service\u2019s uptime and response latency before and after a release on your BUSY Bar.",
   "author": "ncoooooper"
 }

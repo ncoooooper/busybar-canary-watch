@@ -1,66 +1,65 @@
-import { device } from "@shared/device";
-import { column, render, type Node } from "@busy-app/busy-lib";
-import manifest from "./appmeta/manifest.json";
+import {surface,label,panel,amber,mint,persist,read,report,type Frame} from "@shared/surface";
+import {loadValues} from "@shared/settings";
 
-/** The name the app draws under; the device clears elements by this id. */
-const APP = manifest.id;
-
-/** How often the screen is redrawn. */
-const TICK_MS = 1000;
-
-const WHITE = "#FFFFFFFF";
-const SUBTLE_WHITE = "#FFFFFF80";
-
-/**
- * The frame drawn on every tick. The screen is 72×16, so two short lines are about all that fits.
- */
-function frame(ticks: number): Node {
-  return column({ justify: "center", align: "center" }, [
-    { type: "text", id: "title", text: "Hello", font: "bold", color: WHITE },
-    {
-      type: "text",
-      id: "ticks",
-      text: String(ticks),
-      font: "small",
-      color: SUBTLE_WHITE,
-    },
-  ]);
+type Sample={ok:boolean;ms:number};
+type History={endpoint:string;before:Sample[];live:Sample[]};
+let history:History={endpoint:"",before:[],live:[]};
+let endpoint="",page=0,busy=false,closed=false,lastAttempt=0,notice="Set health URL";
+let timer:ReturnType<typeof setInterval>|undefined;
+function stats(samples:Sample[]){
+ const good=samples.filter(x=>x.ok);
+ return {up:samples.length?Math.round(good.length*100/samples.length):null,
+         latency:good.length?Math.round(good.reduce((total,x)=>total+x.ms,0)/good.length):null};
 }
-
-/** Sends one frame to the device. */
-async function draw(ticks: number): Promise<void> {
-  const elements = render(frame(ticks));
-  await device.DisplayDraw({ application_name: APP, priority: 50, elements });
+function metric(value:number|null,unit:string){return value===null?"--":value+unit;}
+function summary(samples:Sample[]){
+ const s=stats(samples);return metric(s.up,"%")+" / "+metric(s.latency,"ms")+" ("+samples.length+")";
 }
-
-/**
- * Entry point, called at the end of the file: the device runs this script from top to bottom and starts nothing by itself.
- */
-function main(): void {
-  let ticks = 0;
-  let stopped = false;
-
-  const report = (err: unknown) =>
-    console.error(`${APP}: ${err instanceof Error ? err.message : String(err)}`);
-
-  void draw(ticks).catch(report);
-
-  // Tick errors are reported, not thrown: one failed request must not stop the loop.
-  const timer = setInterval(() => {
-    ticks += 1;
-    void draw(ticks).catch(report);
-  }, TICK_MS);
-
-  // Back leaves the app. Once the timer is cleared and the handler detached, nothing keeps it alive and the device takes the screen back.
-  const unbind = listen("input", (event) => {
-    if (stopped || event.key !== "back" || event.action !== "short") return;
-
-    stopped = true;
-    clearInterval(timer);
-
-    // Not detached from inside the handler itself: with nothing else left the unbind stops the app on the spot, while this handler is still running.
-    setTimeout(unbind, 0);
-  });
+function delta(current:number|null,baseline:number|null,unit:string){
+ if(current===null||baseline===null)return "--";
+ const change=current-baseline;return (change>0?"+":"")+change+unit;
 }
-
-main();
+function draw():Frame{
+ const current=stats(history.live),base=stats(history.before),released=history.before.length>0;
+ const value=page?metric(current.latency,"ms"):metric(current.up,"%");
+ const headline=!endpoint?"Set URL":!history.live.length?"Waiting":value;
+ const heading=(released?"POST ":"PRE ")+(page?"LATENCY":"UPTIME");
+ return [label("phase",heading,1,0,amber,"front","tiny"),label("metric",headline,1,7,mint),
+ ...panel("CANARY WATCH",["Now: "+summary(history.live),"Base: "+summary(history.before),
+ "Diff: "+delta(current.up,base.up,"pp")+" / "+delta(current.latency,base.latency,"ms"),notice,
+ "Click: probe / Wheel: metric",released?"Hold Start: new baseline":"Start: mark release"])];
+}
+async function probe(){
+ if(!endpoint||busy||closed||Date.now()-lastAttempt<1200)return;
+ busy=true;lastAttempt=Date.now();
+ let healthy=false;
+ try{
+   const response=await fetch(endpoint);
+   healthy=response.ok;notice="HTTP "+response.status;
+ }catch{notice="Connection failed";}
+ const ms=Math.max(0,Date.now()-lastAttempt);
+ busy=false;if(closed)return;
+ history.live.push({ok:healthy,ms});if(history.live.length>20)history.live.shift();
+ persist("history",history);
+ console.log("probe",healthy?"up":"down","ms",ms,"window",history.before.length?"after":"before","samples",history.live.length);
+ refresh();
+}
+function mark(){
+ if(busy||!history.live.length){notice=busy?"Probe in progress":"Probe at least once";return;}
+ history.before=history.live.slice();history.live=[];persist("history",history);
+ notice="Release marked";console.log("baseline",summary(history.before));
+}
+const refresh=surface(draw,k=>{
+ if(k==="up"||k==="down")page=1-page;
+ else if(k==="ok")void probe();
+ else if((k==="start"&&!history.before.length)||k==="hold-start")mark();
+},()=>{closed=true;if(timer!==undefined)clearInterval(timer);});
+void loadValues().then(v=>{
+ if(closed)return;
+ endpoint=String(v?.endpoint||"").trim();
+ if(!/^https?:\/\/[^\s]+$/i.test(endpoint)){endpoint="";notice="Set HTTP(S) health URL";refresh();return;}
+ const saved=read<History|null>("history",null);
+ history=saved?.endpoint===endpoint&&Array.isArray(saved.before)&&Array.isArray(saved.live)?saved:{endpoint,before:[],live:[]};
+ notice="Connecting";console.log("restore baseline",history.before.length,"live",history.live.length);refresh();
+ void probe();timer=setInterval(()=>void probe(),30000);
+}).catch(report);
