@@ -1,0 +1,19 @@
+{
+  "services": [
+    {
+      "name": "Bitrise",
+      "type": "statuspage",
+      "url": "https://status.bitrise.io/api/v2/status.json"
+    },
+    {
+      "name": "Jenkins",
+      "type": "jenkins",
+      "url": "http://127.0.0.1:8080/api/json?tree=mode",
+      "basic_env": "JENKINS_AUTH"
+    },
+    {
+      "name": "Website",
+      "url": "https://example.org/"
+    }
+  ]
+}

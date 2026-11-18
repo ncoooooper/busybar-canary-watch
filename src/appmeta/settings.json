@@ -7,6 +7,12 @@
       "label": "Service health URL",
       "default": "",
       "max_length": 150
+    },
+    "bridge": {
+      "type": "string",
+      "label": "Local companion URL",
+      "default": "",
+      "max_length": 150
     }
   }
 }

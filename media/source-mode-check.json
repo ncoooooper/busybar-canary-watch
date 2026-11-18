@@ -1,0 +1,19 @@
+{
+  "app": "canary-watch",
+  "frames": [
+    2,
+    2
+  ],
+  "firmware": "1.3.1",
+  "inputs": [
+    [
+      "up"
+    ],
+    [
+      "down"
+    ]
+  ],
+  "source": "Recorded source response",
+  "exit": "finished",
+  "sha256": "bf9c720cc2dfc65d43a9944fe9fc9cbc1d0e5cabc2923eacbeb489aca6c0106c"
+}

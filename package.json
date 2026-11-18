@@ -1,8 +1,8 @@
 {
   "name": "busybar-canary-watch",
   "private": true,
-  "version": "0.1.0",
-  "description": "Compare one service\u2019s uptime and response latency before and after a release on your BUSY Bar.",
+  "version": "0.2.0",
+  "description": "Compare one service’s uptime and response latency before and after a release on your BUSY Bar.",
   "author": "ncoooooper",
   "type": "module",
   "scripts": {

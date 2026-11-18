@@ -1,6 +1,6 @@
 {
   "category": "dev-monitoring",
   "short_description": "Compare one service’s uptime and response latency before and after a release on your BUSY Bar.",
-  "description": "Compare one service’s uptime and response latency before and after a release on your BUSY Bar. Set Service health URL to a small health endpoint you operate. The app samples it at launch and every 30 seconds while open. Click for a manual probe. The wheel switches between availability and latency.",
-  "changelog": "First public version."
+  "description": "Monitor a group of sites, Bitrise and Jenkins, or compare one service before and after a release. Compare one service’s uptime and response latency before and after a release on your BUSY Bar. Set Service health URL to a small health endpoint you operate. The app samples it at launch and every 30 seconds while open. Click for a manual probe. The wheel switches between availability and latency.",
+  "changelog": "Add multi-service uptime and availability."
 }

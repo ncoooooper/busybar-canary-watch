@@ -15,3 +15,9 @@ dist
 .idea
 .DS_Store
 *.sw?
+__pycache__/
+config.json
+tokens.json
+tokens.rotating
+state.json
+state.tmp
