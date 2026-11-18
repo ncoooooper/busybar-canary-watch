@@ -4,6 +4,8 @@ Compare one service’s uptime and response latency before and after a release o
 
 Mark a rollout at the moment it happens. The display keeps the pre-release readings alongside the next samples, so you can tell whether a visible change began after the deployment.
 
+Each mark on the right is a completed probe, oldest first. Failed probes leave a short red mark. On the latency page the green columns compare response times within the last eight probes.
+
 ## Set the baseline at deployment
 
 1. Set the app’s health URL to a small endpoint you operate and open the app. Check the rear screen for the sample count. The display takes a reading every 30 seconds while open.

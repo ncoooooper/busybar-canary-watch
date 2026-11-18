@@ -1,5 +1,15 @@
-import {surface,label,panel,amber,mint,persist,read,report,type Frame} from "@shared/surface";
+import {surface,label,panel,rect,amber,mint,persist,read,report,type Frame} from "@shared/surface";
 import {loadValues} from "@shared/settings";
+
+function sampleHistory(samples: Sample[], latency: boolean): Frame {
+  const recent = samples.slice(-8);
+  const scale = Math.max(1,...recent.map(p=>p.ok?p.ms:0));
+  return recent.map((p,i)=>{
+    const h = !p.ok?2:latency?Math.max(2,Math.round(10*p.ms/scale)):6;
+    return rect("probe"+i,48+i*3,15-h,2,h,p.ok?"#72CBA9FF":"#F27A6BFF");
+  });
+}
+
 
 type Sample={ok:boolean;ms:number};
 type History={endpoint:string;before:Sample[];live:Sample[]};
@@ -25,6 +35,7 @@ function draw():Frame{
  const headline=!endpoint?"Set URL":!history.live.length?"Waiting":value;
  const heading=(released?"POST ":"PRE ")+(page?"LATENCY":"UPTIME");
  return [label("phase",heading,1,0,amber,"front","tiny"),label("metric",headline,1,7,mint),
+ ...sampleHistory(history.live,page===1),
  ...panel("CANARY WATCH",["Now: "+summary(history.live),"Base: "+summary(history.before),
  "Diff: "+delta(current.up,base.up,"pp")+" / "+delta(current.latency,base.latency,"ms"),notice,
  "Click: probe / Wheel: metric",released?"Hold Start: new baseline":"Start: mark release"])];
@@ -53,7 +64,7 @@ const refresh=surface(draw,k=>{
  if(k==="up"||k==="down")page=1-page;
  else if(k==="ok")void probe();
  else if((k==="start"&&!history.before.length)||k==="hold-start")mark();
-},()=>{closed=true;if(timer!==undefined)clearInterval(timer);});
+},()=>{closed=true;if(timer!==undefined)clearInterval(timer);},{enabled:false});
 void loadValues().then(v=>{
  if(closed)return;
  endpoint=String(v?.endpoint||"").trim();

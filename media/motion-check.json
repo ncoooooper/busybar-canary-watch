@@ -15,7 +15,7 @@
     "media/front.png",
     "media/back.png"
   ],
-  "sha256": "91f482245bed5c11efa5b26be508ae71c5bfedd29418b9b4f97a41bf2f63461b",
+  "sha256": "b214b071d9f8b507b1daf33ecd2b3db908fab3203912aa9951a9d8f5a0eff0d8",
   "display_test": {
     "firmware": "1.3.1",
     "input": "Recorded companion readings",
@@ -30,9 +30,9 @@
     ],
     "frames": 128,
     "distinct_by_flow": [
-      7,
+      2,
       12
     ],
-    "exit": "App io.btype.canarywatch exited: finished; heap peak 89.4 of 128 KiB"
+    "exit": "App io.btype.canarywatch exited: finished; heap peak 87.8 of 128 KiB"
   }
 }
