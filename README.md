@@ -15,3 +15,5 @@ For example, while Quiet Queue is running locally, allow local port 8766 in the 
 From this folder, run `~/.busy-emulator/bin/busy-emulator dev --once` with BUSY Bar Emulator open. Back exits.
 
 ![BUSY Bar front display](screenshots/front-1.png)
+
+[Watch the controls on firmware](media/controls.mp4)
