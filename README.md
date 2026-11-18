@@ -14,11 +14,11 @@ Mark a rollout at the moment it happens. The display keeps the pre-release readi
 
 ## Check whether successful requests slowed down
 
-1. Turn the wheel to **POST LATENCY**. This is the average duration of successful probes in the current window. The recorded endpoint shows 56 ms.
+1. Turn the wheel to **POST LATENCY**. This is the average duration of successful probes in the current window. Read the new average in milliseconds.
 2. On the rear display, compare the current value and sample count with **Base**, then read **Diff**. Availability changes use percentage points and latency changes use milliseconds.
 3. Hold **Start** at the next deployment if you want the current window to become the new baseline.
 
-![The wheel switches the post-release front display from 67 percent uptime to 56 ms latency.](media/guide/inspect-post-latency.gif)
+![The wheel switches the post-release front display from 67 percent uptime to the latency reading.](media/guide/inspect-post-latency.gif)
 
 ## Compare like with like
 
