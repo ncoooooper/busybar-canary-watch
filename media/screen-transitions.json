@@ -1,6 +1,17 @@
 {
   "app": "busybar-canary-watch",
-  "sha256": "62281a514941b3563fc5ea167247a454b872e099e5c60f32b9365f0ff9272cfa",
+  "sha256": "b74a9180f0244129f2420f6796f394fd4a8772d8a76e729759c8bf6c45c5f3e5",
+  "rapid_input_test": {
+    "app": "io.ncoooooper.canarywatch",
+    "sha256": "b74a9180f0244129f2420f6796f394fd4a8772d8a76e729759c8bf6c45c5f3e5",
+    "firmware": {
+      "name": "1.3.1",
+      "commit": "8edd2da4"
+    },
+    "heap_peak_kib": 92.2,
+    "budget_kib": 128.0,
+    "exit": "finished"
+  },
   "firmware": "1.3.1",
   "cell": 16,
   "lit": 14,
