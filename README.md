@@ -6,6 +6,32 @@ Mark a rollout at the moment it happens. The display keeps the pre-release readi
 
 Each mark on the right is a completed probe, oldest first. Failed probes leave a short red mark. On the latency page the green columns compare response times within the last eight probes.
 
+## Screen transitions
+
+Compare the deployment baseline with the current probe, then move to the latency reading.
+
+![Canary Watch front display. Compare the deployment baseline with the current probe, then move to the latency reading.](media/guide/screen-transitions.gif)
+
+<details>
+
+<summary>Watch the rear display</summary>
+
+![Canary Watch rear display during the recorded controls](media/guide/screen-transitions-rear.gif)
+
+</details>
+
+Turn between Bitrise and Jenkins to compare the latest status and probe history.
+
+![Canary Watch front display. Turn between Bitrise and Jenkins to compare the latest status and probe history.](media/guide/screen-transitions-connected.gif)
+
+<details>
+
+<summary>Watch the rear display in connected mode</summary>
+
+![Canary Watch rear display during the recorded controls](media/guide/screen-transitions-connected-rear.gif)
+
+</details>
+
 ## Set the baseline at deployment
 
 1. Set the app’s health URL to a small endpoint you operate and open the app. Check the rear screen for the sample count. The display takes a reading every 30 seconds while open.
@@ -42,7 +68,7 @@ Open BUSY Bar Emulator. From this repository, run:
 
 Press **Back** to exit.
 
-The GIFs are excerpts from the emulator recording. Each front-display pixel is shown at 9× its original width and height. The end frames pause for reading.
+The GIFs are excerpts from the emulator recording. Each LED occupies a 16 × 16 cell with a black border. The end frames pause for reading.
 
 [Full recording](media/controls.mp4) · [Rear display](screenshots/back-1.png) · [Firmware test](EMULATOR-QA.md) · [MIT license](LICENSE)
 
@@ -72,6 +98,6 @@ Turn back and compare the percentage and sample count. One online response after
 
 ![The wheel returns to the Bitrise page.](media/guide/use-2.gif)
 
-The recordings use example responses on emulator firmware. Each display pixel is enlarged to a 9 × 9 square.
+The recordings use example responses on emulator firmware. Each LED occupies a 16 × 16 cell with a black border.
 
 [Bitrise service status](https://status.bitrise.io/) · [Jenkins Remote Access API](https://www.jenkins.io/doc/book/using/remote-access-api/).

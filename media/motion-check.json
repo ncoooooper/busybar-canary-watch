@@ -15,7 +15,7 @@
     "media/front.png",
     "media/back.png"
   ],
-  "sha256": "b591838c6583d7c64debb0e93013525f3afa6dbfca13d6d85dea1debaae6264c",
+  "sha256": "62281a514941b3563fc5ea167247a454b872e099e5c60f32b9365f0ff9272cfa",
   "display_test": {
     "firmware": "1.3.1",
     "input": "Recorded companion readings",

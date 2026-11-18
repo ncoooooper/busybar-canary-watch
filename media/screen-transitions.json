@@ -1,0 +1,75 @@
+{
+  "app": "busybar-canary-watch",
+  "sha256": "62281a514941b3563fc5ea167247a454b872e099e5c60f32b9365f0ff9272cfa",
+  "firmware": "1.3.1",
+  "cell": 16,
+  "lit": 14,
+  "front": [
+    72,
+    16
+  ],
+  "rear": [
+    160,
+    80
+  ],
+  "captures": [
+    {
+      "mode": "classic",
+      "guides": [
+        "watch-post-release-uptime",
+        "inspect-post-latency"
+      ],
+      "tour": "screen-transitions",
+      "input": [
+        [
+          "ok"
+        ],
+        [
+          "start",
+          "up"
+        ],
+        [
+          "down",
+          "up",
+          "ok"
+        ]
+      ],
+      "distinct_frames": [
+        2,
+        15,
+        46
+      ],
+      "rear_frames": 7,
+      "rear_tour": "screen-transitions-rear",
+      "exit": "finished"
+    },
+    {
+      "mode": "extended",
+      "guides": [
+        "use-1",
+        "use-2"
+      ],
+      "tour": "screen-transitions-connected",
+      "input": [
+        [
+          "up"
+        ],
+        [
+          "down"
+        ],
+        [
+          "down",
+          "up"
+        ]
+      ],
+      "distinct_frames": [
+        6,
+        7,
+        23
+      ],
+      "rear_frames": 11,
+      "rear_tour": "screen-transitions-connected-rear",
+      "exit": "finished"
+    }
+  ]
+}
