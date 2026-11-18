@@ -2,18 +2,44 @@
 
 Compare one service’s uptime and response latency before and after a release on your BUSY Bar.
 
-Set Service health URL to a small health endpoint you operate. The app samples it at launch and every 30 seconds while open. Click for a manual probe. The wheel switches between availability and latency.
+Mark a rollout at the moment it happens. The display keeps the pre-release readings alongside the next samples, so you can tell whether a visible change began after the deployment.
 
-Collect pre-release samples, then press Start at deployment. The current window freezes as the baseline. The next twenty probes form a rolling comparison window. The rear panel shows both sample counts, availability change in percentage points, and latency change in milliseconds. Hold Start to replace the baseline with the current window for a later release.
+## Set the baseline at deployment
 
-Availability is the fraction of probes with a successful HTTP status. Mean response time uses successful probes only. If all probes fail, latency is unavailable. Measurements include transport from the device. Both windows survive app restarts. Changing to a different URL starts a new comparison. Use a small unauthenticated endpoint without credentials in its URL.
+1. Set the app’s health URL to a small endpoint you operate and open the app. Check the rear screen for the sample count. The display takes a reading every 30 seconds while open.
+2. After collecting pre-release samples, press **Start** at rollout. Those readings become the baseline. The next probes belong to the post-release window.
+3. Click to take an extra reading. The clip shows post-release uptime moving from 50% to 67% as another successful reading arrives.
 
-For example, while Quiet Queue is running locally, allow local port 8766 in the emulator and set the endpoint to `http://127.0.0.1:8766/queue`. The same procedure works with your own reachable HTTP(S) health URL.
+![Post-release availability changes from 50 percent to 67 percent.](media/guide/watch-post-release-uptime.gif)
 
-## Run locally
+## Check whether successful requests slowed down
 
-From this folder, run `~/.busy-emulator/bin/busy-emulator dev --once` with BUSY Bar Emulator open. Back exits.
+1. Turn the wheel to **POST LATENCY**. This is the average duration of successful probes in the current window. The recorded endpoint shows 56 ms.
+2. On the rear display, compare the current value and sample count with **Base**, then read **Diff**. Availability changes use percentage points and latency changes use milliseconds.
+3. Hold **Start** at the next deployment if you want the current window to become the new baseline.
 
-![BUSY Bar front display](screenshots/front-1.png)
+![The wheel switches the post-release front display from 67 percent uptime to 56 ms latency.](media/guide/inspect-post-latency.gif)
 
-[Watch the controls on firmware](media/controls.mp4)
+## Compare like with like
+
+Keep the same URL for both windows. For a service with 20 current samples and two failed requests, uptime is 90%. A 100% baseline would give a change of −10 percentage points. Failed requests are counted in uptime but excluded from mean latency. If none succeed, the latency display reads `--`. The time includes the connection from the bar.
+
+The current window holds up to 20 probes. Both windows survive closing the app. Changing the URL starts a new comparison.
+
+## Setup
+
+Use a reachable HTTP(S) endpoint that needs no credentials. For example, if the Quiet Queue companion is already running locally, allow port 8766 in the emulator and use `http://127.0.0.1:8766/queue`.
+
+## Run in the emulator
+
+Open BUSY Bar Emulator. From this repository, run:
+
+```sh
+~/.busy-emulator/bin/busy-emulator dev --once
+```
+
+Press **Back** to exit.
+
+The GIFs are excerpts from the emulator recording. Each front-display pixel is shown at 9× its original width and height. The end frames pause for reading.
+
+[Full recording](media/controls.mp4) · [Rear display](screenshots/back-1.png) · [Firmware test](EMULATOR-QA.md) · [MIT license](LICENSE)
